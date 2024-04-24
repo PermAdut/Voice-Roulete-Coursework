@@ -27,7 +27,7 @@ export default function Header() {
                   ? { color: "rgb(134, 239, 172)", textDecoration: "underline" }
                   : {};
               }}
-              to={"/chat"}
+              to={"/users"}
             >
               пользователи онлайн
             </NavLink>
@@ -39,9 +39,9 @@ export default function Header() {
                   ? { color: "rgb(134, 239, 172)", textDecoration: "underline" }
                   : {};
               }}
-              to={"/blog"}
+              to={"/login"}
             >
-              о нас
+              вход
             </NavLink>
           </li>
         </ul>

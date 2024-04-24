@@ -1,15 +1,4 @@
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-
 export default function Page404() {
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    setTimeout(() => {
-      navigate(-1);
-    }, 3000);
-  }, []);
-
   return (
     <div className=" w-full h-full flex justify-center items-center flex-col text-white ">
       <h1 className="text-4xl text-center mt-5 mb-4">Ошибка 404</h1>

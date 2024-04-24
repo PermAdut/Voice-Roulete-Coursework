@@ -8,7 +8,7 @@ export default function MainPage() {
           <div className="w-full h-full flex content-center  bg-anon bg-cover bg-no-repeat rounded-3xl "></div>
         </div>
         <div className="flex pb-10 hover:transition-all hover:opacity-80 flex-col items-center justify-center">
-          <button className="bg-green-300 rounded-3xl text-3xl w-[200px] h-[40px] mb-5 mt-80">
+          <button className="bg-green-300 rounded-3xl text-3xl w-[250px] h-[40px] mb-5 mt-80 text-white">
             Начать поиск
           </button>
           <p className="text-1xl">Количество пользователей онлайн:</p>

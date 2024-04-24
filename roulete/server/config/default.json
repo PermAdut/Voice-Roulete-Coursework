@@ -1,4 +1,5 @@
 {
     "serverPort" : 5000,
-    "dbUrl":"mongodb+srv://root:Egorgoida1488@cluster0.fhlpsod.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+    "dbUrl":"mongodb+srv://root:Egorgoida1488@cluster0.fhlpsod.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
+    "secretKey":"roulete-secret-key"
 }
