@@ -12,20 +12,22 @@ import UsersOnline from "./routes/UsersOnline/UsersOnline.tsx";
 function App() {
 
   const [isActive, setModalActive] = useState(false)
-
+  const [nickName, setNickName] = useState<string>('')
   const setActiveHandler = ():void => {
     setModalActive(!isActive)
   }
-
+  const setNickNameHandler = (nickName:string):void => {
+    setNickName(nickName)
+  }
   return (
     <>
-      <Header />
+      <Header nickName={nickName} setNickName={setNickNameHandler}/>
       <main className="px-5 sm:px-7 sm:py-8 py-20 bg-main bg-no-repeat bg-cover flex flex-grow">
         <Routes>
           <Route path="*" element={<Page404 />} />
           <Route path="/" element={<MainPage />} />
           <Route path="/users" element={<UsersOnline />} />
-          <Route path="/login" element={<LoginPage isActive={isActive} setActive={setActiveHandler}/>} />
+          <Route path="/login" element={<LoginPage callback={setNickNameHandler} isActive={isActive} setActive={setActiveHandler}/>} />
         </Routes>
         {isActive ? <RegistrationPage isActive={isActive} setActive={setActiveHandler} /> : ""}
       </main>

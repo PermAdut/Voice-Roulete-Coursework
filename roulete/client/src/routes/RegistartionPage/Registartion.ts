@@ -1,5 +1,3 @@
-import { SetStateAction } from "react";
-
 export interface RegistrationProps{
     isActive:boolean,
     setActive: () => void,

@@ -6,6 +6,7 @@ import { registration } from "../../actions/user";
 const RegistrationPage: FC<RegistrationProps> = ({ isActive, setActive }) => {
   const [nickName, setNickName] = useState<string>('')
   const [password, setPassword] = useState<string>('')
+  const [repeatPass, setRepeatPass] = useState<string>('')
   return (
 
     <>
@@ -17,9 +18,9 @@ const RegistrationPage: FC<RegistrationProps> = ({ isActive, setActive }) => {
           <div className="flex flex-col items-center content-center gap-8">
             <RegistrationInput type='text' value={nickName} setValue={setNickName}  placeholder="Логин" />
             <RegistrationInput type='password' value={password} setValue={setPassword}  placeholder="Пароль" />
-            <input placeholder="Повторите пароль" />
+            <RegistrationInput type='password' value={repeatPass} setValue={setRepeatPass}  placeholder="Повторите" />
             <button
-              onClick={() => {registration(nickName,password)}} 
+              onClick={() => {registration(nickName,password, repeatPass)}} 
               className="rounded-3xl text-3xl w-[250px] mb-10 h-[40px] uppercase text-white bg-green-300 hover:transition-all hover:opacity-80"
             >
               регистрация

@@ -1,13 +1,14 @@
 import { NavLink } from "react-router-dom";
+import HeaderLogin from "./HeaderLogin";
 
-export default function Header() {
+export default function Header(props:{nickName:string, setNickName:(arg:string) => void}) {
   return (
     <>
       <header className="flex px-5 py-4 bg-emerald-900 w-full flex-row flex-wrap justify-around items-center min-h-[160px]">
         <h1 className=" float-start text-7xl text-cyan-400 font-bold">
           <NavLink to={"/"}>FunRoulete</NavLink>
         </h1>
-        <ul className="list-none flex flex-row gap-8 text-2xl font-normal text-cyan-400 uppercase font-medium">
+        <ul className="list-none flex flex-row gap-8 text-2xl font-normal text-cyan-400 uppercase">
           <li className="hover:underline hover:transition-all hover:opacity-80 ">
             <NavLink
               style={({ isActive }) => {
@@ -45,6 +46,8 @@ export default function Header() {
             </NavLink>
           </li>
         </ul>
+        {props.nickName === '' ? '': <HeaderLogin nickName={props.nickName} setNickName={props.setNickName}/>}
+        
       </header>
     </>
   );
