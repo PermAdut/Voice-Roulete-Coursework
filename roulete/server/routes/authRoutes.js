@@ -25,7 +25,11 @@ async (req, res) => {
         const candidate = await User.findOne({nickName})
 
         if(candidate){
-            return res.status(400).json({message:"Пользователь с таким ником уже существует"})
+            return res.status(400).json({message:"User with this nickName is already exist"})
+        }
+
+        if(password.length <= 3){
+            return res.status(400).json({message:"Your password is too short"})
         }
         const hashPassword = await bcrypt.hash(password, 8)
         const user = new User({nickName,password:hashPassword})

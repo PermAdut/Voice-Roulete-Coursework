@@ -1,7 +1,14 @@
 import { NavLink } from "react-router-dom";
 import HeaderLogin from "./HeaderLogin";
+import Cookies from "js-cookie";
+import { useEffect } from "react";
 
 export default function Header(props:{nickName:string, setNickName:(arg:string) => void}) {
+  useEffect(() => {
+    const savedState = Cookies.get('loginState')
+    if(savedState) props.setNickName(JSON.parse(savedState))
+  },[])
+
   return (
     <>
       <header className="flex px-5 py-4 bg-emerald-900 w-full flex-row flex-wrap justify-around items-center min-h-[160px]">

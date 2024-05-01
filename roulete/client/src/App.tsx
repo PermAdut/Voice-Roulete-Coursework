@@ -13,6 +13,7 @@ function App() {
 
   const [isActive, setModalActive] = useState(false)
   const [nickName, setNickName] = useState<string>('')
+
   const setActiveHandler = ():void => {
     setModalActive(!isActive)
   }

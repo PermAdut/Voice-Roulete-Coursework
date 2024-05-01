@@ -2,7 +2,7 @@
 module.exports = {
   content: ["./src/App.tsx", "./src/routes/Page404/Page404.tsx", "./src/routes/MainPage/MainPage.tsx", 
   "./src/routes/Footer/Footer.tsx", "./src/routes/Page403/Page403.tsx", "./src/routes/Header/Header.tsx", "./src/routes/LoginPage/LoginPage.tsx",
-"./src/routes/RegistartionPage/RegistrationPage.tsx", "./src/routes/Header/HeaderLogin.tsx"],
+"./src/routes/RegistartionPage/RegistrationPage.tsx", "./src/routes/Header/HeaderLogin.tsx", "./src/routes/LoginPage/LoginAsk.tsx", "./src/routes/LoginPage/LoginSuccess.tsx"],
   theme: {
     extend: {
       backgroundImage:{

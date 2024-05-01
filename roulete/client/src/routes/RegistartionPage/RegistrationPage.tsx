@@ -20,7 +20,7 @@ const RegistrationPage: FC<RegistrationProps> = ({ isActive, setActive }) => {
             <RegistrationInput type='password' value={password} setValue={setPassword}  placeholder="Пароль" />
             <RegistrationInput type='password' value={repeatPass} setValue={setRepeatPass}  placeholder="Повторите" />
             <button
-              onClick={() => {registration(nickName,password, repeatPass)}} 
+              onClick={() => {registration(nickName,password, repeatPass, setActive)}} 
               className="rounded-3xl text-3xl w-[250px] mb-10 h-[40px] uppercase text-white bg-green-300 hover:transition-all hover:opacity-80"
             >
               регистрация
