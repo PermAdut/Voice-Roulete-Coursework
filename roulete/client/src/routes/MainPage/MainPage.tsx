@@ -24,7 +24,8 @@ export default function MainPage() {
   }
 
   function handleMedia(stream:MediaStream){
-    const mediaRecorder = new MediaRecorder(stream)
+    const options = { mimeType: 'audio/webm' };
+    const mediaRecorder = new MediaRecorder(stream, options)
     const timeSlice = 1000
     mediaRecorder.start(timeSlice)
   
@@ -38,7 +39,7 @@ export default function MainPage() {
   useEffect(() => {
     socket.on('audioMessage', (audioData) => {
       console.log(audioData)
-      const audioBlob = new Blob([audioData], {type: 'audio/mpeg'});
+      const audioBlob = new Blob([audioData], {type: 'audio/webm'});
       const audioUrl = URL.createObjectURL(audioBlob);
       const audio = new Audio();
       audio.src = audioUrl;
