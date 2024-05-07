@@ -3,13 +3,13 @@ import LoginInput from "./LoginInput";
 import { LoginProps } from "./LoginPage";
 import { login } from "../../actions/user";
 
-const LoginAsk: FC<LoginProps> = ({ isActive, setActive, callback }) => {
+const LoginAsk: FC<LoginProps> = ({ isActive, setActive, handleLogin }) => {
     const [nickName, setNickName] = useState<string>("");
     const [password, setPassword] = useState<string>("");
   return (
     <>
       <div className="mb-10 mt-10">
-        <h2>Авторизация</h2>
+        <h2>Аутентификация</h2>
       </div>
       <div className="flex flex-col items-center content-center gap-8">
         <LoginInput
@@ -25,7 +25,7 @@ const LoginAsk: FC<LoginProps> = ({ isActive, setActive, callback }) => {
           placeholder="Пароль"
         />
         <button
-          onClick={() => login(nickName, password, callback)}
+          onClick={() => login(nickName, password, handleLogin)}
           className="rounded-3xl text-3xl w-[250px] h-[40px] uppercase text-white bg-green-300 hover:transition-all hover:opacity-80"
         >
           войти

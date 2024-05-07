@@ -5,7 +5,6 @@ const bcrypt = require('bcryptjs')
 const {check, validationResult} = require('express-validator')
 const jwt = require('jsonwebtoken')
 const config = require('config')
-const express = require('express')
 
 
 router.post('/registration',
@@ -58,11 +57,11 @@ async (req, res) => {
             return res.status(400).json({message:"Not valid password"})
         }
         user.currentNAT = req.headers['cf-connecting-ip'] || req.headers['x-real-ip'] || req.headers['x-forwarded-for'] || req.socket.remoteAddress || '';
-        const token = jwt.sign({is:user.id},config.get("secretKey"), {expiresIn : "1h"} )
+        const token = jwt.sign({is:user.userId},config.get("secretKey"), {expiresIn : "1h"} )
         return res.json({
             token,
             user:{
-                id:user.id,
+                id:user.userId,
                 nickName:user.nickName,
                 currentNAT: user.currentNAT,
             }

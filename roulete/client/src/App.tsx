@@ -8,29 +8,72 @@ import LoginPage from "./routes/LoginPage/LoginPage.tsx";
 import RegistrationPage from "./routes/RegistartionPage/RegistrationPage.tsx";
 import { useState } from "react";
 import UsersOnline from "./routes/UsersOnline/UsersOnline.tsx";
+import Cookies from "js-cookie";
 
 function App() {
+  const [userLoginState, setUserLoginState] = useState({
+    isLoggedIn: false,
+    username: Cookies.get('loginState') ? JSON.parse(Cookies.get('loginState') as string) : undefined,
+  });
 
-  const [isActive, setModalActive] = useState(false)
-  const [nickName, setNickName] = useState<string>('')
+  const [isActive, setModalActive] = useState(false);
 
-  const setActiveHandler = ():void => {
-    setModalActive(!isActive)
-  }
-  const setNickNameHandler = (nickName:string):void => {
-    setNickName(nickName)
-  }
+  const setActiveHandler = (): void => {
+    setModalActive(!isActive);
+  };
+
+  const handleLogin = () => {
+    let username;
+    if(Cookies.get('loginState') != undefined)
+      username = JSON.parse(Cookies.get("loginState") as string);
+    else
+      username = ''
+    setUserLoginState({
+      isLoggedIn: true,
+      username: username,
+    });
+  };
+
+  const handleLogout = () => {
+    Cookies.remove("userIdState");
+    Cookies.remove("loginState");
+    setUserLoginState({
+      isLoggedIn: false,
+      username: "",
+    });
+  };
+
   return (
     <>
-      <Header nickName={nickName} setNickName={setNickNameHandler}/>
+      <Header
+        isLoggedIn={userLoginState.isLoggedIn}
+        username={userLoginState.username}
+        handleLogout={handleLogout}
+      />
       <main className="px-5 sm:px-7 sm:py-8 py-20 bg-main bg-no-repeat bg-cover flex flex-grow">
         <Routes>
           <Route path="*" element={<Page404 />} />
           <Route path="/" element={<MainPage />} />
           <Route path="/users" element={<UsersOnline />} />
-          <Route path="/login" element={<LoginPage callback={setNickNameHandler} isActive={isActive} setActive={setActiveHandler}/>} />
+          <Route
+            path="/login"
+            element={
+              <LoginPage
+                isActive={isActive}
+                setActive={setActiveHandler}
+                isLoggedIn={userLoginState.isLoggedIn}
+                username={userLoginState.username}
+                handleLogin={handleLogin}
+                handleLogout={handleLogout}
+              />
+            }
+          />
         </Routes>
-        {isActive ? <RegistrationPage isActive={isActive} setActive={setActiveHandler} /> : ""}
+        {isActive ? (
+          <RegistrationPage isActive={isActive} setActive={setActiveHandler} />
+        ) : (
+          ""
+        )}
       </main>
       <Footer />
     </>

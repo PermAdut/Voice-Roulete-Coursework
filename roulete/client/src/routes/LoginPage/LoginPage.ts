@@ -6,7 +6,10 @@ interface UserInfo {
 export interface LoginProps{
     isActive:boolean,
     setActive: () => void,
-    callback: (nickName:string) => void,
+    isLoggedIn?:boolean,
+    username:string,
+    handleLogin:() => void,
+    handleLogout:() => void,
 }
 
 export interface InputProps{
