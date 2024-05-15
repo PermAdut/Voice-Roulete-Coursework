@@ -7,7 +7,7 @@ export interface LoginProps{
     isActive:boolean,
     setActive: () => void,
     isLoggedIn?:boolean,
-    username:string,
+    username:string | undefined,
     handleLogin:() => void,
     handleLogout:() => void,
 }

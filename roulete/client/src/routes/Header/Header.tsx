@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import HeaderLogin from "./HeaderLogin";
 
-export default function Header(props:{isLoggedIn:boolean, username:string, handleLogout:() => void}) {
+export default function Header(props:{isLoggedIn:boolean, username:string | undefined, handleLogout:() => void}) {
   return (
     <>
       <header className="flex px-5 py-4 bg-emerald-900 w-full flex-row flex-wrap justify-around items-center min-h-[160px]">

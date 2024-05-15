@@ -1,7 +1,7 @@
 import React from "react";
 import Cookies from "js-cookie";
 
-export default function HeaderLogin(props:{username:string, handleLogout:() => void}) {
+export default function HeaderLogin(props:{username:string | undefined, handleLogout:() => void}) {
 
   const exitClickHandler = () => {
     Cookies.remove('userIdState');

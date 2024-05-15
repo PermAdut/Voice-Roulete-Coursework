@@ -9,23 +9,21 @@ const cors = require("cors");
 const { instrument } = require("@socket.io/admin-ui");
 const fs = require('fs');
 
+
 const app = express();
 app.use(cors());
 app.use(corsMiddleware);
 app.use(express.json());
 app.use("/api/auth", authRouter);
 
-const httpsOptions = {
-  key: fs.readFileSync('./openssl/server.key'),
-  cert: fs.readFileSync('./openssl/cert.pem')
-};
-
+//const key = fs.readFileSync('./openssl/myserver.key', 'utf8');
+// const cert = fs.readFileSync('./openssl/myserver.crt', 'utf8');
 const PORT = config.get("serverPort");
-const server = http.createServer(httpsOptions,app);
+const server = http.createServer(app);
+
 const io = new Server(server, {
   cors: {
-    //origin: ["http://localhost:3000","http://192.168.0.114:3000", "https://admin.socket.io"],
-    origin:"*",
+    origin: ["http://localhost:3000", "https://admin.socket.io"],
     methods: ["GET", "POST"],
     credentials: true,
   },
@@ -33,24 +31,28 @@ const io = new Server(server, {
 
 
 
+
 const start = async () => {
   try {
     await mogoose.connect(config.get("dbUrl"));
 
-    server.listen(PORT,"192.168.0.114", () => console.log("server is running"));
+    server.listen(PORT, () => console.log('server is running'));
   } catch (e) {
     console.log(e);
   }
 };
 
+
+let onlineUsers = BigInt.Zero
 const usersId = {};
 
 io.on("connection", (socket) => {
   console.log(`User connected: ${socket.id}`);
-
+  onlineUsers++;
   socket.join(socket.id);
 
   socket.on("auth", (userId) => {
+    console.log("auth")
     usersId[socket.id] = {
       id: userId,
       socketId: socket.id,
@@ -60,12 +62,13 @@ io.on("connection", (socket) => {
   });
 
   socket.on("searchForAUser", async (userId) => {
-    if (!usersId[socket.id].isConnected) {
+    console.log("search")
+    if (!usersId[socket.id].isConnected) { /// 
       console.log("search");
       const user = await findUser(usersId[socket.id].id);
       if (user) {
         console.log(usersId);
-        usersId[socket.id].isConnected = true;
+        usersId[socket.id].isConnected = true; /// &&&&
         usersId[user.socketId].isConnected = true;
         io.to(socket.id).emit("connection",{userID:user.id, socketID:user.socketId, isSendingOffer:false})
         io.to(user.socketId).emit("connection",{userID:usersId[socket.id].id, socketID:socket.id, isSendingOffer:true})
@@ -77,12 +80,13 @@ io.on("connection", (socket) => {
 
   // Пересылаем предложения
   socket.on("offer", (data) => {
+    console.log("offer")
     io.to(data.infoSocket.connectedUserSocketID).emit('offer', {type:data.type, sdp:data.sdp})
   });
 
   // Пересылаем кандидатов ICE
   socket.on("candidate", (data) => {
-    console.log('CANDATE TO', data.target)
+    console.log("candidate")
     io.to(data.target).emit("candidate", {
       candidate: data.candidate,
       sender: socket.id,
@@ -91,14 +95,31 @@ io.on("connection", (socket) => {
 
   // Пересылаем ответы
   socket.on("answer", (data) => {
+    console.log("answer")
     io.to(data.infoSocket.connectedUserSocketID).emit("answer", {type:data.type, sdp: data.sdp });
   });
+
+  socket.on("endCall", (infoSocket) => {
+    console.log("endCall")
+    io.to(infoSocket.socketID).emit("endCall")
+    io.to(infoSocket.connectedUserSocketID).emit("endCall")
+    usersId[infoSocket.socketID] = {
+      ...usersId[infoSocket.socketID],
+      isConnected:false,
+    }
+    usersId[infoSocket.connectedUserSocketID] = {
+      ...usersId[infoSocket.connectedUserSocketID],
+      isConnected:false,
+    }
+  })
+
 
   socket.on("disconnect", () => {
     if (socket.id in usersId) {
       delete usersId[socket.id];
     }
-    console.log(`User disconnected: ${socket.id}`);
+    onlineUsers--;
+    console.log(`User disconnected: ${socket.id}`);// emit end call
   });
 });
 

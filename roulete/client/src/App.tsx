@@ -6,15 +6,28 @@ import Footer from "./routes/Footer/Footer.tsx";
 import Header from "./routes/Header/Header.tsx";
 import LoginPage from "./routes/LoginPage/LoginPage.tsx";
 import RegistrationPage from "./routes/RegistartionPage/RegistrationPage.tsx";
-import { useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import UsersOnline from "./routes/UsersOnline/UsersOnline.tsx";
 import Cookies from "js-cookie";
 
 function App() {
-  const [userLoginState, setUserLoginState] = useState({
+  interface IUserLoginState {
+    isLoggedIn: boolean;
+    username: string | undefined;
+  }
+
+  const [userLoginState, setUserLoginState] = useState<IUserLoginState>({
     isLoggedIn: false,
-    username: Cookies.get('loginState') ? JSON.parse(Cookies.get('loginState') as string) : undefined,
+    username: undefined,
   });
+
+  useEffect(() => {
+    if (Cookies.get("loginState"))
+      setUserLoginState({
+        isLoggedIn: true,
+        username: JSON.parse(Cookies.get("loginState") as string),
+      });
+  }, []);
 
   const [isActive, setModalActive] = useState(false);
 
@@ -22,26 +35,25 @@ function App() {
     setModalActive(!isActive);
   };
 
-  const handleLogin = () => {
+  const handleLogin = useCallback(() => {
     let username;
-    if(Cookies.get('loginState') != undefined)
+    if (Cookies.get("loginState") != undefined)
       username = JSON.parse(Cookies.get("loginState") as string);
-    else
-      username = ''
+    else username = "";
     setUserLoginState({
       isLoggedIn: true,
       username: username,
     });
-  };
+  }, [userLoginState]);
 
-  const handleLogout = () => {
+  const handleLogout = useCallback(() => {
     Cookies.remove("userIdState");
     Cookies.remove("loginState");
     setUserLoginState({
       isLoggedIn: false,
       username: "",
     });
-  };
+  }, [userLoginState]);
 
   return (
     <>
