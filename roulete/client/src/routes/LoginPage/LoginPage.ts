@@ -1,8 +1,3 @@
-interface UserInfo {
-    NickName:string,
-    Password:string,
-}
-
 export interface LoginProps{
     isActive:boolean,
     setActive: () => void,

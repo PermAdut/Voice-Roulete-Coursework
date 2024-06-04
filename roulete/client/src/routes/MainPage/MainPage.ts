@@ -1,3 +1,8 @@
+// main types
+type LocalStream = MediaStream | undefined;
+type LocalRecorder = MediaRecorder | undefined;
+
+
 interface setInfoSocket{
     socketID?: string,
     userID?: string,
@@ -21,3 +26,7 @@ interface IConnectedMainPageProps extends CallInterfaceProps{
 } 
 
 type ConnectedMainPageProps = Omit<IConnectedMainPageProps, 'getUserId'>
+
+interface DisconnectedMainPageProps {
+    returnBack: (arg:boolean) => void,
+}

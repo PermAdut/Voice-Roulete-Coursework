@@ -22,29 +22,6 @@ const MainPageDefault: React.FC<CallInterfaceProps> = ({
           </button>
           <p className="text-1xl">Количество пользователей онлайн:</p>
         </div>
-        <div>
-          <button
-            onClick={() =>
-              (remoteAudioRef.current!.muted = !remoteAudioRef.current!.muted)
-            }
-          >
-            {remoteAudioRef.current && remoteAudioRef.current.muted
-              ? "Включить звук"
-              : "Выключить звук"}
-          </button>
-          <button
-            onClick={() => {
-              localStream
-                ?.getAudioTracks()
-                .forEach((track) => (track.enabled = !track.enabled));
-            }}
-          >
-            {localStream &&
-            localStream.getAudioTracks().every((track) => !track.enabled)
-              ? "Включить микрофон"
-              : "Выключить микрофон"}
-          </button>
-        </div>
       </section>
       <audio ref={remoteAudioRef} autoPlay />
     </>

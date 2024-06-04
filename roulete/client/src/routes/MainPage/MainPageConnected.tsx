@@ -23,7 +23,6 @@ const MainPageConnected: React.FC<ConnectedMainPageProps> = ({
         <p className="text-1xl">Количество пользователей онлайн:</p>
       </div>
       <div>
-        {/* Кнопка для отключения звука */}
         <button
           onClick={() =>
             (remoteAudioRef.current!.muted = !remoteAudioRef.current!.muted)
@@ -33,7 +32,6 @@ const MainPageConnected: React.FC<ConnectedMainPageProps> = ({
             ? "Включить звук"
             : "Выключить звук"}
         </button>
-        {/* Кнопка для отключения микрофона */}
         <button
           onClick={() => {
             localStream
@@ -48,7 +46,7 @@ const MainPageConnected: React.FC<ConnectedMainPageProps> = ({
         </button>
       </div>
     </section>
-    <audio ref={remoteAudioRef} autoPlay />
+    <audio ref={remoteAudioRef} autoPlay/>
     </>
   );
 };

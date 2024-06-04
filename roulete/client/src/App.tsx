@@ -1,13 +1,13 @@
 import { Route, Routes } from "react-router-dom";
 import "./App.css";
 import Page404 from "./routes/Page404/Page404.tsx";
-import MainPage from "./routes/MainPage/MainPage.tsx";
+import { MainPage } from "./routes/MainPage/MainPage.tsx";
 import Footer from "./routes/Footer/Footer.tsx";
 import Header from "./routes/Header/Header.tsx";
 import LoginPage from "./routes/LoginPage/LoginPage.tsx";
 import RegistrationPage from "./routes/RegistartionPage/RegistrationPage.tsx";
 import { useEffect, useState, useCallback } from "react";
-import UsersOnline from "./routes/UsersOnline/UsersOnline.tsx";
+import UserRecordings from "./routes/UserRecordings/UserRecordings.tsx";
 import Cookies from "js-cookie";
 
 function App() {
@@ -60,13 +60,12 @@ function App() {
       <Header
         isLoggedIn={userLoginState.isLoggedIn}
         username={userLoginState.username}
-        handleLogout={handleLogout}
       />
       <main className="px-5 sm:px-7 sm:py-8 py-20 bg-main bg-no-repeat bg-cover flex flex-grow">
         <Routes>
           <Route path="*" element={<Page404 />} />
           <Route path="/" element={<MainPage />} />
-          <Route path="/users" element={<UsersOnline />} />
+          <Route path="/users" element={<UserRecordings />} />
           <Route
             path="/login"
             element={

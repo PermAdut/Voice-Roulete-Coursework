@@ -1,7 +1,9 @@
 import { NavLink } from "react-router-dom";
 import HeaderLogin from "./HeaderLogin";
+import { FC } from "react";
+import { HeaderProps } from "./Header";
 
-export default function Header(props:{isLoggedIn:boolean, username:string | undefined, handleLogout:() => void}) {
+const Header: FC<HeaderProps> = ({isLoggedIn, username}) => {
   return (
     <>
       <header className="flex px-5 py-4 bg-emerald-900 w-full flex-row flex-wrap justify-around items-center min-h-[160px]">
@@ -30,7 +32,7 @@ export default function Header(props:{isLoggedIn:boolean, username:string | unde
               }}
               to={"/users"}
             >
-              пользователи онлайн
+              ваши разговоры
             </NavLink>
           </li>
           <li className="hover:underline hover:transition-all hover:opacity-80">
@@ -46,12 +48,10 @@ export default function Header(props:{isLoggedIn:boolean, username:string | unde
             </NavLink>
           </li>
         </ul>
-        {props.isLoggedIn ? (
-          <HeaderLogin username={props.username} handleLogout={props.handleLogout}/>
-        ) : (
-          false
-        )}
+        {isLoggedIn && <HeaderLogin username={username} />}
       </header>
     </>
   );
-}
+};
+
+export default Header;
