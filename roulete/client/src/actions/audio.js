@@ -11,6 +11,6 @@ export const getRecordings = async(
         console.log(response.data)
         callback(response.data)
     } catch(e){
-        alert(e)
+        console.error(e)
     }
 }

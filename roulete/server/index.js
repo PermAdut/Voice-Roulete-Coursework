@@ -5,7 +5,6 @@ const authRouter = require("./routes/authRoutes");
 const fileRouter = require("./routes/fileRoutes")
 const corsMiddleware = require("./middleware/cors.middleware");
 const { Server } = require("socket.io");
-const http = require("http");
 const https = require("https")
 const cors = require("cors");
 const { instrument } = require("@socket.io/admin-ui");

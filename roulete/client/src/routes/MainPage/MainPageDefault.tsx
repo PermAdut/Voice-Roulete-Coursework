@@ -20,7 +20,6 @@ const MainPageDefault: React.FC<CallInterfaceProps> = ({
           >
             Начать поиск
           </button>
-          <p className="text-1xl">Количество пользователей онлайн:</p>
         </div>
       </section>
       <audio ref={remoteAudioRef} autoPlay />

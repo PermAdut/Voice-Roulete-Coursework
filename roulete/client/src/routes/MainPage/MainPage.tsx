@@ -40,7 +40,6 @@ export function MainPage() {
     };
 
     socket.on("connection", (data) => {
-      console.log(localStreamRef.current);
       setLoading(false);
       startRecording(localStreamRef.current);
       loadingRef.current = false;
@@ -154,6 +153,45 @@ export function MainPage() {
       mediaRecorder?.stop();
     });
 
+    function handleBeforeUnload(event:Event){
+      event.preventDefault();
+      infoSocketRefPrev.current = infoSocketRef.current;
+      stopRecording().then(async (audioBlob) => {
+        const formData = new FormData();
+        console.log(audioBlob);
+        formData.append(
+          "audioFile",
+          audioBlob,
+          `Conv${infoSocketRefPrev.current?.userID}and${infoSocketRefPrev.current?.connectedUserID}`
+        );
+        formData.append(
+          "userId",
+          infoSocketRefPrev.current?.userID as string,
+        )
+        formData.forEach((el) => {
+          console.log(el);
+        });
+        try {
+          const response = await fetch(`https://${config.hostname}:${config.port}/api/files/upload_recording`, {
+            method: 'POST',
+            body: formData,
+            keepalive: true, 
+          });
+          console.log(response.status);
+        } catch (err) {
+          console.error(err);
+        }
+      });
+      setInfoSocket({});
+      infoSocketRef.current = {};
+      setLocalStream(undefined);
+      localStreamRef.current = undefined;
+      setDisconnected(true);
+      mediaRecorder?.stop();
+    }
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
     return () => {
       localStream?.getTracks().forEach((track) => track.stop());
       mediaRecorder?.stop();
@@ -162,6 +200,7 @@ export function MainPage() {
       socket.off("answer");
       socket.off("candidate");
       socket.off("endCall");
+      window.removeEventListener('beforeunload', handleBeforeUnload);
     };
   }, []);
 
@@ -225,9 +264,7 @@ export function MainPage() {
       await peerConnection.setLocalDescription(offer);
       socket.emit("searchForAUser", infoSocket?.userID);
 
-      // Добавляем треки в peerConnection
       stream.getTracks().forEach((track) => {
-        console.log("track");
         peerConnection.addTrack(track, stream);
       });
     } catch (error) {

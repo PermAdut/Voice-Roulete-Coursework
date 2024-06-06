@@ -24,20 +24,20 @@ async (req, res) => {
         const candidate = await User.findOne({nickName})
 
         if(candidate){
-            return res.status(400).json({message:"User with this nickName is already exist"})
+            return res.status(400).json({message:"Пользователь с таким никнеймом уже существует"})
         }
 
         if(password.length <= 3){
-            return res.status(400).json({message:"Your password is too short"})
+            return res.status(400).json({message:"Слишком короткий пароль"})
         }
         const hashPassword = await bcrypt.hash(password, 8)
         const user = new User({nickName,password:hashPassword})
         await user.save()
-        return res.json({message:"User was created"})
+        return res.json({message:"Пользователь создан"})
 
     } catch(e){
         console.log(e)
-        res.send({message:`Server error ${e}`})
+        res.send({message:`Ошибка сервера ${e}`})
     }
 })
 

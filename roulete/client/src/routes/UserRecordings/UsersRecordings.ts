@@ -1,6 +1,5 @@
 interface IRecordingInfo {
-  fileName: string;
-  conversationTime: Date;
+  files:[],
 }
 
 type UserRecordingProps = IRecordingInfo;

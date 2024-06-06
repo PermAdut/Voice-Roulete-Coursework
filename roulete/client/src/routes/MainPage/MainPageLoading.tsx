@@ -12,7 +12,7 @@ export default function MainPageLoading(props: IMainPageLoadingProps) {
         <h2 className="text-3xl">Идет поиск собеседника...</h2>
         <button
           onClick={props.cancelLoading}
-          className="bg-red-300 rounded-3xl text-3xl w-[250px] h-[40px] mb-5 mt-80 text-white"
+          className="bg-red-300 rounded-3xl text-3xl w-[250px] h-[40px] mb-5 mt-40 text-white"
         >
           Отменить поиск
         </button>

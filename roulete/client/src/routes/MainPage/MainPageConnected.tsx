@@ -1,10 +1,25 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
 
 const MainPageConnected: React.FC<ConnectedMainPageProps> = ({
   localStream,
   remoteAudioRef,
   terminateCall,
 }) => {
+  const [isRemoteAudioMuted, setIsRemoteAudioMuted] = useState(false);
+
+  const toggleRemoteAudio = () => {
+    if (remoteAudioRef.current) {
+      remoteAudioRef.current.muted = !remoteAudioRef.current.muted;
+      setIsRemoteAudioMuted(remoteAudioRef.current.muted);
+    }
+  };
+
+  useEffect(() => {
+    if(remoteAudioRef.current) {
+      setIsRemoteAudioMuted(remoteAudioRef.current.muted);
+    }
+  }, [remoteAudioRef]);
+
   return (
     <>
     <section className="w-full h-full flex content-center items-center flex-col bg-cyan-500 mx-[500px] shadow-2xl shadow-black">
@@ -20,30 +35,12 @@ const MainPageConnected: React.FC<ConnectedMainPageProps> = ({
         >
           Отключиться
         </button>
-        <p className="text-1xl">Количество пользователей онлайн:</p>
       </div>
       <div>
-        <button
-          onClick={() =>
-            (remoteAudioRef.current!.muted = !remoteAudioRef.current!.muted)
-          }
-        >
-          {remoteAudioRef.current && remoteAudioRef.current.muted
-            ? "Включить звук"
-            : "Выключить звук"}
+      <button onClick={toggleRemoteAudio}>
+          {isRemoteAudioMuted ? "Включить звук" : "Выключить звук"}
         </button>
-        <button
-          onClick={() => {
-            localStream
-              ?.getAudioTracks()
-              .forEach((track) => (track.enabled = !track.enabled));
-          }}
-        >
-          {localStream &&
-          localStream.getAudioTracks().every((track) => !track.enabled)
-            ? "Включить микрофон"
-            : "Выключить микрофон"}
-        </button>
+        <br />
       </div>
     </section>
     <audio ref={remoteAudioRef} autoPlay/>
